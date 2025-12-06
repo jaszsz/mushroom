@@ -1,0 +1,9 @@
+[theme]
+primaryColor="#f7a62dff"
+backgroundColor="#f7f595ff"
+secondaryBackgroundColor="#F0F2F6"
+textColor="#000000"
+font="garet"
+
+# mode = "light" atau "dark"
+base="light"
