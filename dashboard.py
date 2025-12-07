@@ -129,11 +129,7 @@ if page == "Informasi Dataset":
 
     - **edible (e)** = aman dimakan  
     - **poisonous (p)** = beracun / berbahaya  
-
-    Semua fitur bersifat **kategori** seperti:
-    - cap-shape, cap-color  
-    - odor, gill-color  
-    - stalk-shape, habitat, dll  
+                  
     """)
     col1, col2 = st.columns(2)
 
@@ -317,3 +313,4 @@ elif page == "Berita & Informasi Terkini":
             </a>
         </div>
         """, unsafe_allow_html=True)
+
