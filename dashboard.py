@@ -383,8 +383,6 @@ if page == "Berita & Informasi Terkini":
 
 
 elif page == "Hasil Analisis":
-    import pickle
-    model = pickle.load(open("xgb_model.pkl", "rb"))
     st.title("🎯 Evaluasi Kinerja Model Machine Learning")
     st.markdown("""
     Pada penelitian ini dibandingkan dua model Machine Learning, yaitu **XGBoost** dan **Random Forest**, dalam memprediksi klasifikasi jamur (edible/poisonous). Dataset yang digunakan memiliki pola yang sangat terstruktur sehingga kedua model mencapai performa sempurna pada data uji.          
@@ -566,7 +564,7 @@ if page == "Penelitian Serupa":
 
             with c1:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Kota</b><br>
                     Yogyakarta, Indonesia
                 </div>
@@ -574,7 +572,7 @@ if page == "Penelitian Serupa":
 
             with c2:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Tahun</b><br>
                     2018
                 </div>
@@ -582,7 +580,7 @@ if page == "Penelitian Serupa":
 
             with c3:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Metode</b><br>
                     C4.5, Naive Bayes, Support Vector Machine
                 </div>
@@ -615,7 +613,7 @@ if page == "Penelitian Serupa":
 
             with c1:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Kota</b><br>
                     Semarang, Indonesia
                 </div>
@@ -623,7 +621,7 @@ if page == "Penelitian Serupa":
 
             with c2:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Tahun</b><br>
                     2021
                 </div>
@@ -631,7 +629,7 @@ if page == "Penelitian Serupa":
 
             with c3:
                 st.markdown("""
-                <div style='padding:10px; border-radius:10px; background:#1E1E1E; text-align:center;'>
+                <div style='padding:10px; border-radius:10px; background:#8aaf80; text-align:center;'>
                     <b>Metode</b><br>
                     Naive Bayes, K-Nearest Neighbors
                 </div>
@@ -667,3 +665,4 @@ if page == "Penelitian Serupa":
             </div>
             """, unsafe_allow_html=True)
             st.image("gambar/cm knn.png", width=1200)
+
