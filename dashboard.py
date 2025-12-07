@@ -267,9 +267,6 @@ elif page == "Berita & Informasi Terkini":
     if st.button("🎲 Dapatkan Fakta Jamur Acak"):
         import random
         st.success(random.choice(fakta_jamur))
-
-    from newspaper import Article
-
 # -------------------------------
 # 1. List URL Berita (Fixed)
 # -------------------------------
@@ -312,4 +309,5 @@ elif page == "Berita & Informasi Terkini":
                 <small style="color:#555;">Klik untuk membaca selengkapnya →</small>
             </a>
         </div>
+
         """, unsafe_allow_html=True)
