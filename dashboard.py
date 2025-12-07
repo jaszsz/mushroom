@@ -277,108 +277,43 @@ elif page == "Berita & Informasi Terkini":
 # -------------------------------
 # 1. List URL Berita (Fixed)
 # -------------------------------
-    URLS = [
-        "https://food.detik.com/info-kuliner/d-7888479/ilmuwan-temukan-jamur-terpahit-di-dunia-aman-dimakan",
-        "https://www.detik.com/jabar/berita/d-7759235/jamur-liar-bikin-warga-garut-dan-subang-masuk-rumah-sakit",
-        "https://www.detik.com/jabar/berita/d-7755993/jamur-liar-pembawa-petaka-di-garut",
-        "https://www.detik.com/jabar/berita/d-7755127/sekeluarga-di-garut-keracunan-usai-santap-jamur-liar",
-        "https://news.detik.com/internasional/d-6867154/geger-jamur-liar-renggut-3-nyawa-di-australia"
+    news_list = [
+        {
+            "title": "Ilmuwan Temukan Jamur Terpahit di Dunia, Aman Dimakan",
+            "url": "https://food.detik.com/info-kuliner/d-7888479/ilmuwan-temukan-jamur-terpahit-di-dunia-aman-dimakan"
+        },
+        {
+            "title": "Jamur Liar Bikin Warga Garut dan Subang Masuk Rumah Sakit",
+            "url": "https://www.detik.com/jabar/berita/d-7759235/jamur-liar-bikin-warga-garut-dan-subang-masuk-rumah-sakit"
+        },
+        {
+            "title": "Jamur Liar Pembawa Petaka di Garut",
+            "url": "https://www.detik.com/jabar/berita/d-7755993/jamur-liar-pembawa-petaka-di-garut"
+        },
+        {
+            "title": "Sekeluarga di Garut Keracunan Usai Santap Jamur Liar",
+            "url": "https://www.detik.com/jabar/berita/d-7755127/sekeluarga-di-garut-keracunan-usai-santap-jamur-liar"
+        },
+        {
+            "title": "Geger Jamur Liar Renggut 3 Nyawa di Australia",
+            "url": "https://news.detik.com/internasional/d-6867154/geger-jamur-liar-renggut-3-nyawa-di-australia"
+        }
     ]
 
+    st.subheader("📰 Berita & Informasi Terkini")
 
-# -------------------------------
-# 2. Fungsi Scraping
-# -------------------------------
-    def scrape(url):
-        article = Article(url)
-        article.download()
-        article.parse()
-        return {
-            "title": article.title,
-            "text": article.text,
-            "image": article.top_image,
-            "date": article.publish_date,
-            "url": url,
-        }
-
-
-# -------------------------------
-# 3. Styling CSS
-# -------------------------------
-    st.markdown("""
-    <style>
-    .article-box {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 12px;
-        margin-bottom: 35px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-    }
-    .article-img {
-        width: 100%;
-        max-height: 330px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
-    .article-title {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .article-date {
-        color: #777;
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-
-    st.title("📰 Kumpulan Berita Terkini Terkait Jamur")
-
-
-    # -------------------------------
-    # 4. Loop Tampilkan 5 Berita
-    # -------------------------------
-    for url in URLS:
-        try:
-            data = scrape(url)
-        
-            st.markdown('<div class="article-box">', unsafe_allow_html=True)
-
-        # Gambar
-            if data["image"]:
-                st.markdown(
-                    f'<img src="{data["image"]}" class="article-img"/>', 
-                    unsafe_allow_html=True
-                )
-
-        # Judul
-            st.markdown(
-                f'<div class="article-title">{data["title"]}</div>', 
-                unsafe_allow_html=True
-            )
-
-        # Tanggal
-            if data["date"]:
-                st.markdown(
-                    f'<div class="article-date">{data["date"].strftime("%d %B %Y")}</div>',
-                    unsafe_allow_html=True
-                )
-
-        # Isi berita (dipotong)
-            preview = data["text"].split("\n")[0]  # ambil paragraf pertama
-            st.write(preview + "…")
-
-        # Tombol "Buka Berita"
-            st.markdown(f"[Baca selengkapnya ↗]({data['url']})")
-
-            st.markdown("</div>", unsafe_allow_html=True)
-
-        except Exception as e:
-            st.error(f"Gagal memuat artikel dari {url}\nError: {e}")
-
-
-
-
+    for item in news_list:
+        st.markdown(f"""
+        <div style="
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #f7f7f7;
+            border: 1px solid #e0e0e0;
+        ">
+            <a href="{item['url']}" target="_blank" style="text-decoration: none; color: #333;">
+                <h4 style="margin-bottom: 4px;">{item['title']}</h4>
+                <small style="color:#555;">Klik untuk membaca selengkapnya →</small>
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
