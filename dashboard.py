@@ -4,25 +4,6 @@ import plotly.express as px
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 
-page_bg = """
-<style>
-.stApp {
-    background-image: url("https://images.unsplash.com/photo-1504196996335-0f34c3d1d9d9?auto=format&fit=crop&w=1200&q=60");
-    background-size: cover;
-    background-attachment: fixed;
-    animation: bgMove 40s linear infinite;
-}
-
-@keyframes bgMove {
-    0% { background-position: 0 0; }
-    100% { background-position: -300px -200px; }
-}
-</style>
-"""
-
-
-st.markdown(page_bg, unsafe_allow_html=True)
-
 st.set_page_config(page_title="Mushroom Dashboard", layout="wide")
 
 # =============================
@@ -258,31 +239,125 @@ if page == "Informasi Dataset":
 elif page == "Berita & Informasi Terkini":
     st.sidebar.info("Berita terbaru & fakta jamur 🍄")
 
-    st.header("📰 Berita & Informasi Terkini Tentang Jamur")
+    import streamlit as st
+    from newspaper import Article
 
-    # ====== DATA BERITA (opsional kamu isi sendiri) ======
-    berita_list = [
-        "🌲 **Lonjakan Keracunan Jamur Liar** di Monterey County — banyak kasus rawat inap akibat salah identifikasi jamur liar.",
-        "🇨🇳 **599 Insiden Keracunan** jamur tercatat di China (2024) termasuk 13 kematian, banyak berasal dari jamur liar.",
-        "🇫🇷 Di Prancis, ratusan orang mengalami keracunan musiman akibat salah memetik jamur liar.",
-        "🇮🇩 Di Indonesia, beberapa laporan keluarga keracunan jamur karena sulit membedakan jamur aman vs beracun."
+    URLS = [
+        "https://food.detik.com/info-kuliner/d-7888479/ilmuwan-temukan-jamur-terpahit-di-dunia-aman-dimakan",
+        "https://www.detik.com/jabar/berita/d-7759235/jamur-liar-bikin-warga-garut-dan-subang-masuk-rumah-sakit",
+        "https://www.detik.com/jabar/berita/d-7755993/jamur-liar-pembawa-petaka-di-garut",
+        "https://www.detik.com/jabar/berita/d-7755127/sekeluarga-di-garut-keracunan-usai-santap-jamur-liar",
+        "https://news.detik.com/internasional/d-6867154/geger-jamur-liar-renggut-3-nyawa-di-australia"
     ]
 
-    # ====== SLIDE INDEX ======
-    if "slide" not in st.session_state:
-        st.session_state.slide = 0
 
-    # Tampilkan berita sesuai slide
-    st.write(f"### {berita_list[st.session_state.slide]}")
+    def scrape(url):
+        article = Article(url)
+        article.download()
+        article.parse()
+        return {
+            "title": article.title,
+            "text": article.text,
+            "image": article.top_image,
+            "date": article.publish_date,
+            "url": url,
+        }
 
-    # Tombol slider
-    col1, col2 = st.columns(2)
-    if col1.button("⬅️ Prev"):
-        st.session_state.slide = (st.session_state.slide - 1) % len(berita_list)
-    if col2.button("Next ➡️"):
-        st.session_state.slide = (st.session_state.slide + 1) % len(berita_list)
 
-    st.markdown("---")
+# --------- Scrape all news ----------
+    news_items = []
+    for url in URLS:
+        try:
+            news_items.append(scrape(url))
+        except:
+            pass
+
+
+# --------- Inject Swiper.js Carousel ----------
+    st.markdown("""
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        .swiper {
+            width: 100%;
+            height: 450px;
+            border-radius: 14px;
+        }
+        .swiper-slide {
+            position: relative;
+            background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.75;
+        }
+        .slide-info {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            color: white;
+            max-width: 80%;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+        }
+        .slide-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .slide-date {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-bottom: 8px;
+        }
+        .slide-link a {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+    """, unsafe_allow_html=True)
+
+# ---------- Insert slides ----------
+    for item in news_items:
+        st.markdown(f"""
+            <div class="swiper-slide">
+                <img src="{item['image']}" class="slide-image"/>
+                <div class="slide-info">
+                    <div class="slide-title">{item['title']}</div>
+                    <div class="slide-date">{item['date'] if item['date'] else ""}</div>
+                    <div class="slide-link"><a href="{item['url']}" target="_blank">Baca selengkapnya</a></div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+# ---------- Close wrapper + add JS ----------
+    st.markdown("""
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        centeredSlides: true,
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+        },
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    });
+    </script>
+    """, unsafe_allow_html=True)
+
 
     # ====== INFO PENGETAHUAN JAMUR ======
     st.subheader("📚 Fakta Menarik Tentang Jamur")
