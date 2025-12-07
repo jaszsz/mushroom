@@ -3,3 +3,6 @@ pandas
 plotly
 kagglehub
 newspaper3k
+beautifulsoup4
+requests
+lxml
