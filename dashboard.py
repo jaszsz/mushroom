@@ -238,9 +238,32 @@ if page == "Informasi Dataset":
 # =================================
 elif page == "Berita & Informasi Terkini":
     st.sidebar.info("Berita terbaru & fakta jamur 🍄")
+    import requests
+    from bs4 import BeautifulSoup
 
-    import streamlit as st
-    from newspaper import Article
+    def scrape_detik(url):
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        title = soup.find("h1").text.strip()
+
+        date_elem = soup.find("div", class_="detail__date")
+        date = date_elem.text.strip() if date_elem else ""
+
+        image_elem = soup.find("img")
+        image_url = image_elem["src"] if image_elem else ""
+
+    # Ambil isi paragraf berita
+        paragraphs = soup.find_all("p")
+        text = "\n".join([p.text for p in paragraphs])
+
+        return {
+            "title": title,
+            "date": date,
+            "image": image_url,
+            "text": text,
+            "url": url
+        }
 
     URLS = [
         "https://food.detik.com/info-kuliner/d-7888479/ilmuwan-temukan-jamur-terpahit-di-dunia-aman-dimakan",
@@ -251,26 +274,15 @@ elif page == "Berita & Informasi Terkini":
     ]
 
 
-    def scrape(url):
-        article = Article(url)
-        article.download()
-        article.parse()
-        return {
-            "title": article.title,
-            "text": article.text,
-            "image": article.top_image,
-            "date": article.publish_date,
-            "url": url,
-        }
-
-
+    
 # --------- Scrape all news ----------
     news_items = []
-    for url in URLS:
+    for u in URLS:
         try:
-            news_items.append(scrape(url))
+            news_items.append(scrape_detik(u))
         except:
             pass
+
 
 
 # --------- Inject Swiper.js Carousel ----------
@@ -310,12 +322,7 @@ elif page == "Berita & Informasi Terkini":
         .slide-date {
             font-size: 14px;
             opacity: 0.85;
-            margin-bottom: 8px;
-        }
-        .slide-link a {
-            color: #fff;
-            font-weight: 600;
-            text-decoration: underline;
+            margin-bottom: 10px;
         }
     </style>
 
@@ -323,20 +330,20 @@ elif page == "Berita & Informasi Terkini":
         <div class="swiper-wrapper">
     """, unsafe_allow_html=True)
 
-# ---------- Insert slides ----------
     for item in news_items:
         st.markdown(f"""
             <div class="swiper-slide">
                 <img src="{item['image']}" class="slide-image"/>
                 <div class="slide-info">
                     <div class="slide-title">{item['title']}</div>
-                    <div class="slide-date">{item['date'] if item['date'] else ""}</div>
-                    <div class="slide-link"><a href="{item['url']}" target="_blank">Baca selengkapnya</a></div>
+                    <div class="slide-date">{item['date']}</div>
+                    <a href="{item['url']}" target="_blank" style="color:white;font-weight:600;text-decoration:underline;">
+                        Baca selengkapnya
+                    </a>
                 </div>
             </div>
         """, unsafe_allow_html=True)
 
-# ---------- Close wrapper + add JS ----------
     st.markdown("""
         </div>
     </div>
@@ -352,12 +359,9 @@ elif page == "Berita & Informasi Terkini":
         },
         slidesPerView: 1,
         spaceBetween: 10,
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
     });
     </script>
     """, unsafe_allow_html=True)
-
 
     # ====== INFO PENGETAHUAN JAMUR ======
     st.subheader("📚 Fakta Menarik Tentang Jamur")
