@@ -26,6 +26,7 @@ df = load_data()
 # =============================
 
 feature_description = {
+    "class": "👾 Variabel Target: edible=aman dimakan (e), poisonous=beracun (p)",
     "cap-shape": "🍄 Bentuk Tudung: bell=lonceng (b), conical=kerucut (c), convex=cembung (x), flat=datar (f), knobbed=bertombol (k), sunken=cekung (s)",
     "cap-surface": "🧱 Permukaan Tudung: fibrous=berserat (f), grooves=beralur (g), scaly=bersisik (y), smooth=halus (s)",
     "cap-color": "🎨 Warna Tudung: brown=coklat (n), buff=kuning pucat (b), cinnamon=kayu manis (c), gray=abu-abu (g), green=hijau (r), pink=merah muda (p), purple=ungu (u), red=merah (e), white=putih (w), yellow=kuning (y)",
@@ -51,6 +52,7 @@ feature_description = {
 }
 
 feature_title = {
+    "class": "👾 Variabel Target: mendefinisikan sifat jamur yang tergolong ke dalam beracun atau aman untuk dimakan.",
     "cap-shape": "🍄 Bentuk Tudung: menggambarkan bentuk fisik bagian atas jamur yang dapat membantu membedakan spesiesnya.",
     "cap-surface": "🧱 Permukaan Tudung: menunjukkan tekstur luar tudung jamur, apakah halus, bersisik, atau berlendir.",
     "cap-color": "🎨 Warna Tudung: mendeskripsikan variasi warna pada bagian tudung yang sering menjadi ciri utama identifikasi.",
@@ -125,11 +127,7 @@ if page == "Informasi Dataset":
 
     st.header("📘 Informasi Dataset")
     st.markdown("""
-    Dataset **UCI Mushroom Classification** berisi 8124 sampel jamur dengan 22 fitur kategorikal untuk membedakan jamur:
-
-    - **edible (e)** = aman dimakan  
-    - **poisonous (p)** = beracun / berbahaya  
-                  
+    Dataset **UCI Mushroom Classification** berisi 8124 sampel jamur dengan 22 fitur kategorikal untuk membedakan sifat jamur. Kumpulan data ini mencakup deskripsi sampel hipotetis yang sesuai dengan 23 spesies jamur berinsang dalam Famili Agaricus dan Lepiota yang diambil dari The Audubon Society Field Guide to North American Mushrooms (1981). Setiap spesies diidentifikasi sebagai jamur yang pasti dapat dimakan, pasti beracun, atau tidak diketahui kelayakannya untuk dimakan dan tidak direkomendasikan. Kelas jamur yang terakhir ini digabungkan dengan jamur beracun. Panduan tersebut dengan jelas menyatakan bahwa tidak ada aturan sederhana untuk menentukan kelayakan suatu jamur; tidak ada aturan seperti "tiga selebaran, biarkan saja" untuk jamur Poisonous Oak dan Ivy.
     """)
     col1, col2 = st.columns(2)
 
@@ -665,4 +663,5 @@ if page == "Penelitian Serupa":
             </div>
             """, unsafe_allow_html=True)
             st.image("gambar/cm knn.png", width=1200)
+
 
