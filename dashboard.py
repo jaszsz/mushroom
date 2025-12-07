@@ -127,7 +127,7 @@ if page == "Informasi Dataset":
 
     st.header("📘 Informasi Dataset")
     st.markdown("""
-    Dataset **UCI Mushroom Classification** berisi 8124 sampel jamur dengan 22 fitur kategorikal untuk membedakan sifat jamur. Kumpulan data ini mencakup deskripsi sampel hipotetis yang sesuai dengan 23 spesies jamur berinsang dalam Famili Agaricus dan Lepiota yang diambil dari The Audubon Society Field Guide to North American Mushrooms (1981). Setiap spesies diidentifikasi sebagai jamur yang pasti dapat dimakan, pasti beracun, atau tidak diketahui kelayakannya untuk dimakan dan tidak direkomendasikan. Kelas jamur yang terakhir ini digabungkan dengan jamur beracun. Panduan tersebut dengan jelas menyatakan bahwa tidak ada aturan sederhana untuk menentukan kelayakan suatu jamur; tidak ada aturan seperti "tiga selebaran, biarkan saja" untuk jamur Poisonous Oak dan Ivy.
+    Dataset **UCI Mushroom Classification** berisi 8124 sampel jamur dengan 22 fitur kategorikal untuk membedakan sifat jamur. Kumpulan data ini mencakup deskripsi sampel hipotetis yang sesuai dengan 23 spesies jamur berinsang dalam Famili Agaricus dan Lepiota yang diambil dari The Audubon Society Field Guide to North American Mushrooms (1981).
     """)
     col1, col2 = st.columns(2)
 
@@ -663,5 +663,6 @@ if page == "Penelitian Serupa":
             </div>
             """, unsafe_allow_html=True)
             st.image("gambar/cm knn.png", width=1200)
+
 
 
