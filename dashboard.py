@@ -393,7 +393,6 @@ elif page == "Hasil Analisis":
         with st.spinner("Evaluating models..."):
             time.sleep(1.2)
         st.success("🌳 Best Model: **Random Forest** ✨")
-        st.set_page_config(layout="wide")
 
     # ============================
     # Header
@@ -734,4 +733,5 @@ if page == "Prediksi Jamur":
             st.success(f"🌱 **EDIBLE — Jamur Aman Dimakan**\n\nHasil model: {pred_label}")
         elif pred == 1:
             st.error(f"☠️ **POISONOUS — Jamur Beracun**\n\nHasil model: {pred_label}")
+
 
