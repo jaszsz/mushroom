@@ -724,13 +724,19 @@ if page == "Prediksi Jamur":
                 df[col] = encoders[col].transform(df[col])
 
         # Prediksi
-        df = df.reindex(columns=feature_cols)
-        pred = model.predict(df)[0]   # hasil angka: 0 atau 1
-        class_map = {0: "Edible (e)", 1: "Poisonous (p)"}
-        pred_label = class_map[pred]
+        df = df[feature_cols]
+
+        # cek NaN
+        if df.isna().sum().sum() > 0:
+            st.error("Ada input tidak valid (NaN). Cek pilihan fitur.")
+        else:
+            pred = model.predict(df)[0]
+            class_map = {0: "Edible (e)", 1: "Poisonous (p)"}
+            pred_label = class_map[pred]
 
 # Tampilkan hasil
         if pred == 0:
             st.success(f"🌱 **EDIBLE — Jamur Aman Dimakan**\n\nHasil model: {pred_label}")
         elif pred == 1:
             st.error(f"☠️ **POISONOUS — Jamur Beracun**\n\nHasil model: {pred_label}")
+
