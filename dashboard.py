@@ -676,7 +676,6 @@ import pickle
 with open("rf_model.pkl", "rb") as f:
     saved = pickle.load(f)
 
-saved = pickle.load(open("rf_model.pkl","rb"))
 model = saved["model"]
 encoders = saved["encoders"]          # fitur
 class_encoder = saved["class_encoder"]   # khusus class
@@ -735,3 +734,4 @@ if page == "Prediksi Jamur":
             st.success(f"🌱 **EDIBLE — Jamur Aman Dimakan**\n\nHasil model: {pred_label}")
         elif pred == 1:
             st.error(f"☠️ **POISONOUS — Jamur Beracun**\n\nHasil model: {pred_label}")
+
